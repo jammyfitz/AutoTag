@@ -398,10 +398,21 @@ namespace MyFirstProject
 
             foreach (FileInfo songs in albumDirs.GetFiles("*.mp3"))
             {
-                TagLib.File tempfile = TagLib.File.Create(albumDirs.FullName + "\\" + songs);
+                TagLib.File tempFile;
+
+                try
+                {
+                     tempFile = TagLib.File.Create(albumDirs.FullName + "\\" + songs);
+                }
+                catch (CorruptFileException ex)
+                {
+                    AppendTextBoxLine("A corrupt file was found in " + albumDirs.FullName + " for track " + songs.FullName);
+                    return;
+                }
+
                 if (i < tracks.Length)
                 {
-                    tracks[i] = (int)tempfile.Tag.Track;
+                    tracks[i] = (int)tempFile.Tag.Track;
                 }
                 i++;
             }
@@ -437,12 +448,23 @@ namespace MyFirstProject
 
                 foreach (FileInfo songs in albumDirs.GetFiles("*.mp3"))
                 {
-                    TagLib.File tempfile = TagLib.File.Create(albumDirs.FullName + "\\" + songs);
+                    TagLib.File tempFile;
+
+                    try
+                    {
+                        tempFile = TagLib.File.Create(albumDirs.FullName + "\\" + songs);
+                    }
+                    catch (CorruptFileException ex)
+                    {
+                        AppendTextBoxLine("A corrupt file was found in " + albumDirs.FullName + " for track " + songs.FullName);
+                        return;
+                    }
+
                     if (i < artists.Length && i < albums.Length && i < genres.Length)
                     {
-                        artists[i] = tempfile.Tag.FirstArtist;
-                        albums[i] = tempfile.Tag.Album;
-                        genres[i] = tempfile.Tag.FirstGenre;
+                        artists[i] = tempFile.Tag.FirstArtist;
+                        albums[i] = tempFile.Tag.Album;
+                        genres[i] = tempFile.Tag.FirstGenre;
                     }
                     i++;
                 }
@@ -477,11 +499,22 @@ namespace MyFirstProject
         public void checkAlbum(DirectoryInfo albumDirs)
         //Checks all tracks in album directory and reports status to console
         {
+
             int trackCount = 0;
 
             foreach (FileInfo tracks in albumDirs.GetFiles("*.mp3"))
             {
-                TagLib.File file = TagLib.File.Create(albumDirs.FullName + "\\" + tracks);
+                TagLib.File file = null;
+
+                try
+                {
+                    file = TagLib.File.Create(albumDirs.FullName + "\\" + tracks);
+                }
+                catch (CorruptFileException ex)
+                {
+                    AppendTextBoxLine("A corrupt file was found in " + albumDirs.FullName + " for track " + tracks.FullName);
+                    continue;
+                }
 
                 checkTrack(file);
 
