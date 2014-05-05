@@ -41,6 +41,11 @@ namespace MyFirstProject
         private void Form1_Load(object sender, EventArgs e)
         {
             PlayMIDI(Environment.CurrentDirectory + @"\nakedgun.wav");
+            WriteConsoleHeaders();
+        }
+
+        private void WriteConsoleHeaders()
+        {
             AppendTextBoxLine("********************************************************************************************************************************");
             AppendTextBoxLine("********************************************************* AutoTAG 9000 *********************************************************");
             AppendTextBoxLine("********************************************************************************************************************************");
@@ -147,6 +152,11 @@ namespace MyFirstProject
                 textBox1.AppendText(Environment.NewLine);
             }
             textBox1.AppendText(myStr);
+        }
+
+        public void ClearTextBox()
+        {
+            textBox1.Clear();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e) {}
@@ -809,6 +819,12 @@ namespace MyFirstProject
             uint NewVolumeAllChannels = (((uint)NewVolume & 0x0000ffff) | ((uint)NewVolume << 16));
             // Set the volume
             waveOutSetVolume(IntPtr.Zero, NewVolumeAllChannels);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            ClearTextBox();
+            WriteConsoleHeaders();
         }
     }
 }
