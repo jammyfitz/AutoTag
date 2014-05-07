@@ -652,7 +652,6 @@ namespace MyFirstProject
                         file.Tag.Pictures = artwork;
                         file.Save();
                     }
-                    AppendTextBoxLine("Artwork applied for album " + albumDirs.FullName);
                 }
                 else
                 {
