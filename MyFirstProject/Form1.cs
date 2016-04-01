@@ -40,7 +40,8 @@ namespace MyFirstProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            PlayMIDI(Environment.CurrentDirectory + @"\nakedgun.wav");
+            var locationOfMidi = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + @"\nakedgun.wav";
+            PlayMIDI(locationOfMidi);
             WriteConsoleHeaders();
         }
 
